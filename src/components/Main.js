@@ -1,4 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 // ? Contexts
 import { JobsContext } from '../context/JobsContext'
 import { LoginContext } from '../context/LoginContext'
@@ -49,6 +52,14 @@ const Main = () => {
     else setCloneArray(newClone)
   }, [filterDecreaser]);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 2500,
+      once:true,
+    });
+    AOS.refresh();
+  }, []);
+
   const JobApplier = (e) => {
     let applies = document.querySelectorAll('[name="apply"]')
     applies.forEach((each) => {
@@ -77,7 +88,7 @@ const Main = () => {
 }
 
   return (
-    <div className="bg-background dark:bg-headerbg pt-3 min-h-[calc(100vh_-_8rem)]">
+    <div className="bg-background dark:bg-headerbg pt-3 min-h-[calc(100vh_-_8rem)] overflow-clip">
       <div className="opacity-80 transition-all cursor-default sticky z-10 left-0 p-3 rounded-tr-lg rounded-br-lg top-3 bg-primary text-white w-max">
         <StickyJobCounter />
       </div>
@@ -90,8 +101,8 @@ const Main = () => {
           detectFilterDecreaser={detectFilterDecreaser}
         />
         }
-        {cloneArray.map((job) => (  
-          <div key={job.id} className={` ${job.featured ? 'border-l-4 border-primary dark:border-white' : ''} flex justify-center items-center w-4/5 px-7 py-7 bg-white transition-all dark:bg-slate-500 shadow-[0px_10px_15px_-7px_rgb(93_164_164_/_50%)] dark:shadow-xlg dark:shadow-black sm:flex-col`}>
+        {cloneArray.map((job, index) => (
+          <div data-aos={`${index % 2 == 0 ? "fade-up-left" : "fade-up-right" }`} key={job.id} className={` ${job.featured ? 'border-l-4 border-primary dark:border-white' : ''} flex justify-center items-center w-4/5 px-7 py-7 bg-white transition-all dark:bg-slate-500 shadow-[0px_10px_15px_-7px_rgb(93_164_164_/_50%)] dark:shadow-xlg dark:shadow-black sm:flex-col`}>
             <div className="sm:relative flex w-2/5 justify-start gap-6 sm:w-full sm:pb-3 sm:border-b-2 sm:mb-3">
               <div className="sm:absolute sm:-top-12 sm:left-0">
                 <img className="sm:w-12 sm:h-12" src={job.logo} alt={job.id} />
