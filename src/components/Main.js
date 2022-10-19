@@ -54,7 +54,7 @@ const Main = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 2500,
+      duration: 1000,
       once:true,
     });
     AOS.refresh();
